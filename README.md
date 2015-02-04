@@ -16,3 +16,6 @@ Perhaps a basic visualization of the deck with a number of cards left next. It c
 multiple pics for different stack sizes (0, 1-10, etc).
 
 Can we even do sound?
+    LibGDX has sound/audio libraries so it may be possible.
+        http://libgdx.badlogicgames.com/nightlies/docs/api/com/badlogic/gdx/audio/Sound.html
+        http://libgdx.badlogicgames.com/nightlies/docs/api/com/badlogic/gdx/Audio.html
