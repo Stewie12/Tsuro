@@ -32,7 +32,7 @@ public class Tile
     deck.add(new Tile(tempPairs3,3));
     int[] tempPairs4 = {4,7,3,2,0,6,5,1};   //Done
     deck.add(new Tile(tempPairs4,4));
-    int[] tempPairs5 = {};
+    int[] tempPairs5 = {4,7,6,5,0,3,2,1};   //Done
     deck.add(new Tile(tempPairs5,5));
     int[] tempPairs6 = {7,2,1,6,5,4,3,0};   //Done
     deck.add(new Tile(tempPairs6,6));
@@ -62,37 +62,37 @@ public class Tile
     deck.add(new Tile(tempPairs18,18));
     int[] tempPairs19 = {5,3,6,1,7,0,2,4};  //Done
     deck.add(new Tile(tempPairs19,19));
-    int[] tempPairs20 = {};
+    int[] tempPairs20 = {3,4,5,1,0,2,7,6};  //Done
     deck.add(new Tile(tempPairs20,20));
-    int[] tempPairs21 = {};
+    int[] tempPairs21 = {3,5,7,0,6,1,4,2};  //Done
     deck.add(new Tile(tempPairs21,21));
-    int[] tempPairs22 = {};
+    int[] tempPairs22 = {7,3,5,1,6,2,4,0};  //Done
     deck.add(new Tile(tempPairs22,22));
-    int[] tempPairs23 = {};
+    int[] tempPairs23 = {5,3,7,1,6,0,4,2};  //Done
     deck.add(new Tile(tempPairs23,23));
-    int[] tempPairs24 = {};
+    int[] tempPairs24 = {4,2,1,7,0,6,5,3};  //Done
     deck.add(new Tile(tempPairs24,24));
-    int[] tempPairs25 = {};
+    int[] tempPairs25 = {2,4,0,7,1,6,5,3};  //Done
     deck.add(new Tile(tempPairs25,25));
-    int[] tempPairs26 = {};
+    int[] tempPairs26 = {5,4,6,7,1,0,2,3};  //Done
     deck.add(new Tile(tempPairs26,26));
-    int[] tempPairs27 = {};
+    int[] tempPairs27 = {1,0,7,5,6,3,4,2};  //Done
     deck.add(new Tile(tempPairs27,27));
-    int[] tempPairs28 = {};
+    int[] tempPairs28 = {1,0,3,2,5,4,7,6};  //Done
     deck.add(new Tile(tempPairs28,28));
-    int[] tempPairs29 = {};
+    int[] tempPairs29 = {4,2,1,6,0,7,3,5};  //Done
     deck.add(new Tile(tempPairs29,29));
-    int[] tempPairs30 = {};
+    int[] tempPairs30 = {1,0,6,7,5,4,2,3};  //Done
     deck.add(new Tile(tempPairs30,30));
-    int[] tempPairs31 = {};
+    int[] tempPairs31 = {4,5,6,7,0,1,2,3};  //Done
     deck.add(new Tile(tempPairs31,31));
-    int[] tempPairs32 = {};
+    int[] tempPairs32 = {1,0,6,5,7,3,2,4};  //Done
     deck.add(new Tile(tempPairs32,32));
-    int[] tempPairs33 = {};
+    int[] tempPairs33 = {1,0,4,5,2,3,7,6};  //Done
     deck.add(new Tile(tempPairs33,33));
-    int[] tempPairs34 = {};
+    int[] tempPairs34 = {3,6,4,0,2,7,1,5};  //Done
     deck.add(new Tile(tempPairs34,34));
-    int[] tempPairs35 = {};
+    int[] tempPairs35 = {2,5,0,4,3,1,7,6};  //Done
     deck.add(new Tile(tempPairs35,35));
     System.out.println(deck.get(0));
     System.out.println(deck.get(6));
