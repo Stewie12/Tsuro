@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -22,6 +24,9 @@ public class Main extends Application {
 	// Percentage of tile space vs entire board
 	public final double tilePercent = 0.1577181208;
 	public final double spacePercent = 0.02572706935;
+	
+	public ArrayList<ArrayList<Tile>> board;
+    public ArrayList<Figure> figures;
 	
 	public final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
 	
@@ -47,14 +52,33 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
-			placeTile((GridPane) root.getCenter(), 7, 3,3);
-		    placeTile((GridPane) root.getCenter(), 28, 1,1);
-		    placeTile((GridPane) root.getCenter(), 30, 1,2);
-		    placeTile((GridPane) root.getCenter(), 35, 6,6);
+			createBoard(visualBounds);
+			
+			Figure f = new Figure();
+			figures.add(f);
+	        int[] tempPairs1 = {2,5,0,7,6,1,4,3};
+	        Tile tile = new Tile(tempPairs1, 1,visualBounds,tilePercent);
+	        f.place(0,0,0);
+	        placeTile((GridPane) root.getCenter(), tile, 0,0);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+    
+    public void createBoard(Rectangle2D visualBounds) {
+        figures = new ArrayList<Figure>();
+        board = new ArrayList<ArrayList<Tile>>();
+        for (int i=0; i<6; i++) {
+            ArrayList<Tile> tempArrayList = new ArrayList<Tile>();
+            for (int j=0; j<6; j++) {
+                int[] tempPairs = {-1,-1,-1,-1,-1,-1,-1,-1};
+                Tile tempTile = new Tile(tempPairs,-1,visualBounds,tilePercent);
+                tempArrayList.add(tempTile);
+            }
+            board.add(tempArrayList);
+        }
+    }
 	
 	public GridPane addGridPane() {
 	    GridPane grid = new GridPane();
@@ -105,11 +129,15 @@ public class Main extends Application {
 	    return grid;
 	}
 	
-	public GridPane placeTile(GridPane grid, int tileNumber, int row, int col) {
-		Image tile = new Image("piece"+Integer.toString(tileNumber)+".jpg", Math.ceil((visualBounds.getWidth() / 2) * tilePercent), Math.ceil(visualBounds.getHeight() * tilePercent),false,false);
-		ImageView tileView = new ImageView(tile);
-		grid.add(tileView, col, row);
-		return grid;
+	public void placeTile(GridPane grid, Tile tile, int row, int col) {
+		ImageView tileView = new ImageView(tile.image);
+		grid.add(tileView, col+1, row+1);
+		board.get(row).set(col, tile);
+        for(Figure f : figures) {
+            if((f.row == row) && (f.column == col)) {
+                f.move(board);
+            }
+        }
 	}
 	
 	public static void main(String[] args) {
