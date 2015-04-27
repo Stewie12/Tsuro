@@ -1,0 +1,253 @@
+package application;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+
+public class Main extends Application {
+	
+	// Percentage of tile space vs entire board
+	public final double tilePercent = 0.1577181208;
+	public final double spacePercent = 0.02572706935;
+	int timesPressed0 = 0;
+	int timesPressed1 = 0;
+	int timesPressed2 = 0;
+	
+	public final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+	
+	@Override
+	public void start(Stage primaryStage) {
+		try {
+			
+			BorderPane root = new BorderPane();
+			root.setCenter(addGridPane());
+			
+			StackPane stackPaneLeft = new StackPane();
+			
+			stackPaneLeft.setMinWidth(visualBounds.getWidth() / 4);
+			
+			
+			root.setLeft(stackPaneLeft);
+			root.setRight(addFlowPane());
+			
+			Scene scene = new Scene(root,visualBounds.getWidth(),visualBounds.getHeight());
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+	        
+			primaryStage.setScene(scene);
+			primaryStage.show();
+			
+			placeTile((GridPane) root.getCenter(), 7, 3,3);
+		    placeTile((GridPane) root.getCenter(), 28, 1,1);
+		    placeTile((GridPane) root.getCenter(), 30, 1,2);
+		    placeTile((GridPane) root.getCenter(), 35, 6,6);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public GridPane addGridPane() {
+	    GridPane grid = new GridPane();
+	    
+	    Image boardPic = new Image("file:gameboard.png",visualBounds.getWidth() / 2,visualBounds.getHeight(),false,false);
+	    BackgroundImage board = new BackgroundImage(boardPic,BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT);
+	    grid.setBackground(new Background(board));
+	    Pane topLeftCorner = new Pane();
+	    topLeftCorner.setPrefSize(Math.ceil((visualBounds.getWidth() / 2) * spacePercent), Math.ceil(visualBounds.getHeight() * spacePercent));
+	    grid.add(topLeftCorner, 0, 0);
+	    Pane topRightCorner = new Pane();
+	    topRightCorner.setPrefSize(Math.ceil((visualBounds.getWidth() / 2) * spacePercent), Math.ceil(visualBounds.getHeight() * spacePercent));
+	    grid.add(topRightCorner, 7, 0);
+	    Pane bottomLeftCorner = new Pane();
+	    bottomLeftCorner.setPrefSize(Math.ceil((visualBounds.getWidth() / 2) * spacePercent), Math.ceil(visualBounds.getHeight() * spacePercent));
+	    grid.add(bottomLeftCorner, 0, 7);
+	    Pane bottomRightCorner = new Pane();
+	    bottomRightCorner.setPrefSize(Math.ceil((visualBounds.getWidth() / 2) * spacePercent), Math.ceil(visualBounds.getHeight() * spacePercent));
+	    grid.add(bottomRightCorner, 7, 7);
+	    
+	    for(int i=1;i<7;i++) {
+	    	Pane newPane = new Pane();
+	    	newPane.setPrefSize(Math.ceil((visualBounds.getWidth() / 2) * tilePercent), Math.ceil(visualBounds.getHeight() * spacePercent));
+	    	grid.add(newPane, i, 0);
+	    }
+	    
+	    for(int i=1;i<7;i++) {
+	    	Pane newPane = new Pane();
+	    	newPane.setPrefSize(Math.ceil((visualBounds.getWidth() / 2) * tilePercent), Math.ceil(visualBounds.getHeight() * spacePercent));
+	    	grid.add(newPane, i, 7);
+	    }
+	    
+	    for(int i=1;i<7;i++) {
+	    	Pane newPane = new Pane();
+	    	newPane.setPrefSize(Math.ceil((visualBounds.getWidth() / 2) * spacePercent), Math.ceil(visualBounds.getHeight() * tilePercent));
+	    	grid.add(newPane, 0, i);
+	    }
+	    
+	    for(int i=1;i<7;i++) {
+	    	Pane newPane = new Pane();
+	    	newPane.setPrefSize(Math.ceil((visualBounds.getWidth() / 2) * spacePercent), Math.ceil(visualBounds.getHeight() * tilePercent));
+	    	grid.add(newPane, 7, i);
+	    }
+	    placeTile(grid, 7, 3,3);
+	    placeTile(grid, 28, 1,1);
+	    placeTile(grid, 30, 1,2);
+	    placeTile(grid, 35, 6,6);
+	    grid.setGridLinesVisible(true);
+	    
+	    return grid;
+	}
+	
+	public FlowPane addFlowPane() {
+		FlowPane flow = new FlowPane();
+		flow.setPadding(new Insets(5, 0, 5, 0));
+		flow.setVgap(4);
+		flow.setHgap(4);
+		flow.setPrefWrapLength(170); // preferred width allows for two columns
+		//flow.setStyle("-fx-background-color: DAE6F3;");
+		//StackPane stackPaneRight = new StackPane();
+		//stackPaneRight.setMinWidth(visualBounds.getWidth() / 4);
+		final ToggleGroup group = new ToggleGroup();
+		
+		int numberOfTiles = 3;
+	    if(numberOfTiles==0){
+	    	Button btnNoTiles = new Button();
+	    	btnNoTiles.setText("Out of Tiles");
+	    	flow.getChildren().add(btnNoTiles);
+	    }
+	    if(numberOfTiles>0){
+	    	Image tile0 = new Image("file:piece3.jpg",Math.ceil((visualBounds.getWidth() / 2) * tilePercent),Math.ceil(visualBounds.getHeight() * tilePercent),false,false);
+	    	ImageView iv0 = new ImageView(tile0);
+	    	Button btn0 = new Button();
+	    	btn0.setText("Click to Rotate");
+	    	btn0.setOnAction((event)->{
+	    		//TODO update data to reflect rotate
+	    		timesPressed0+=1;
+	    		int r = timesPressed0%4;
+	    		if(r==0){
+	    			iv0.setRotate(0);
+	    		}
+	    		else if(r==1){
+	    			iv0.setRotate(90);
+	    		}
+	    		else if(r==2){
+	    			iv0.setRotate(180);
+	    		}
+	    		else if(r==3){
+	    			iv0.setRotate(270);
+	    		}
+	    	});
+	    	RadioButton rb0 = new RadioButton();
+	    	rb0.setGraphic(iv0);
+	    	rb0.setText("Select Tile 1");
+	    	rb0.setToggleGroup(group);
+	    	int data0 = 0;
+	    	rb0.setUserData(data0);
+	    	//flow.getChildren().add(iv0);
+	    	flow.getChildren().add(rb0);
+	    	flow.getChildren().add(btn0);
+	    	
+	    	
+	    }
+	    if(numberOfTiles>1){
+	    	Image tile1 = new Image("file:piece6.jpg",Math.ceil((visualBounds.getWidth() / 2) * tilePercent),Math.ceil(visualBounds.getHeight() * tilePercent),false,false);
+	    	ImageView iv1 = new ImageView(tile1);
+	    	Button btn1 = new Button();
+	    	btn1.setText("Click to Rotate");
+	    	btn1.setOnAction((event)->{
+	    		//TODO update data to reflect rotate
+	    		timesPressed1+=1;
+	    		int r = timesPressed1%4;
+	    		if(r==0){
+	    			iv1.setRotate(0);
+	    		}
+	    		else if(r==1){
+	    			iv1.setRotate(90);
+	    		}
+	    		else if(r==2){
+	    			iv1.setRotate(180);
+	    		}
+	    		else if(r==3){
+	    			iv1.setRotate(270);
+	    		}
+	    	});
+	    	RadioButton rb1 = new RadioButton();
+	    	rb1.setGraphic(iv1);
+	    	rb1.setText("Select Tile 2");
+	    	rb1.setToggleGroup(group);
+	    	int data1 = 1;
+	    	rb1.setUserData(data1);
+	    	//flow.getChildren().add(iv1);
+	    	flow.getChildren().add(rb1);
+	    	flow.getChildren().add(btn1);
+	    }
+	    if(numberOfTiles>2){
+	    	Image tile2 = new Image("file:piece9.jpg",Math.ceil((visualBounds.getWidth() / 2) * tilePercent),Math.ceil(visualBounds.getHeight() * tilePercent),false,false);
+		    ImageView iv2 = new ImageView(tile2);
+	    	Button btn2 = new Button();
+	    	btn2.setText("Click to Rotate");
+	    	btn2.setOnAction((event)->{
+	    		//TODO update data to reflect rotate
+	    		timesPressed2+=1;
+	    		int r = timesPressed2%4;
+	    		if(r==0){
+	    			iv2.setRotate(0);
+	    		}
+	    		else if(r==1){
+	    			iv2.setRotate(90);
+	    		}
+	    		else if(r==2){
+	    			iv2.setRotate(180);
+	    		}
+	    		else if(r==3){
+	    			iv2.setRotate(270);
+	    		}
+	    	});
+	    	RadioButton rb2 = new RadioButton();
+	    	rb2.setGraphic(iv2);
+	    	rb2.setText("Select Tile 3");
+	    	rb2.setToggleGroup(group);
+	    	int data2 = 2;
+	    	rb2.setUserData(data2);
+	    	//flow.getChildren().add(iv2);
+	    	flow.getChildren().add(rb2);
+	    	flow.getChildren().add(btn2);
+	    }
+	    Button btnPlayTile = new Button();
+    	btnPlayTile.setText("Play selected tile");
+    	btnPlayTile.setOnAction((event)->{
+    		//TODO placetile in grid
+    		int selectedNumber = (int)group.getSelectedToggle().getUserData();
+    		System.out.println(selectedNumber);
+    	});
+    	flow.getChildren().add(btnPlayTile);
+	    return flow;
+	}
+	
+	public GridPane placeTile(GridPane grid, int tileNumber, int row, int col) {
+		Image tile = new Image("file:piece"+Integer.toString(tileNumber)+".jpg", Math.ceil((visualBounds.getWidth() / 2) * tilePercent), Math.ceil(visualBounds.getHeight() * tilePercent),false,false);
+		ImageView tileView = new ImageView(tile);
+		grid.add(tileView, col, row);
+		return grid;
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+}
