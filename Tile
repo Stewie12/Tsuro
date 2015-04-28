@@ -14,7 +14,7 @@ public class Tile {
         this.pairs = pairs;
         this.id = id;
         if(id>0) {
-        	this.image = new Image("piece"+Integer.toString(id)+".jpg", Math.ceil((visualBounds.getWidth() / 2) * tilePercent), Math.ceil(visualBounds.getHeight() * tilePercent),false,false);
+        	this.image = new Image("piece"+Integer.toString(id)+".jpg", Math.ceil((visualBounds.getWidth() / 2) * tilePercent), Math.ceil(visualBounds.getWidth() / 2 * tilePercent),false,false);
         }
     }
     
@@ -31,7 +31,7 @@ public class Tile {
 //        ArrayList<Tile> deck = new ArrayList<Tile>();
 //        
 //        int[] tempPairs0 = {8,8,8,8,8,8,8,8}; // Dragon Tile, nonsense values
-//        deck.add(new Tile(tempPairs0,0)); // Dragon Tile is Tile 0
+//        deck.add(new Tile(tempPairs0,0)); // Dragon Tile is Tile 36
 //        deck.add(new Tile(tempPairs1,1));
 //        int[] tempPairs2 = {3,5,6,0,7,1,2,4};   //Done
 //        deck.add(new Tile(tempPairs2,2));
