@@ -1,20 +1,26 @@
-package application;
-
-import java.util.ArrayList;
-
-
-
 public class Figure
 {
     public int row, column, port;
     public boolean alive;
+    public ArrayList<Tile> hand;
+    public ImageView image;
 
-    public Figure()
+    public Figure(int player, Rectangle2D visualBounds, double spacePercent)
     {
        row = -1;
        column = -1;
        port = -1;
        alive = true;
+       hand = new ArrayList<Tile>();
+       
+       if(player==1) {
+    	   Image jeff = new Image("JeffreyJaffe.jpg",Math.ceil((visualBounds.getWidth() / 2) * spacePercent), Math.ceil(visualBounds.getWidth() / 2 * spacePercent),false,false);
+    	   image = new ImageView(jeff);
+       }
+       else {
+    	   Image bernie = new Image("Berners-Lee.jpg",Math.ceil((visualBounds.getWidth() / 2) * spacePercent), Math.ceil(visualBounds.getWidth() / 2 * spacePercent),false,false);
+    	   image = new ImageView(bernie);
+       }
     }
 
     public void place(int r, int c, int p){
