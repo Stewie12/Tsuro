@@ -1,3 +1,13 @@
+package application;
+
+import java.util.ArrayList;
+
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+
+
 public class Figure
 {
     public int row, column, port;
