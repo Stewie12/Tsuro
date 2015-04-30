@@ -22,7 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Main2 extends Application {
 	
 	// Percentage of tile space vs entire board
 	public final double tilePercent = 0.1577181208;
@@ -35,6 +35,162 @@ public class Main extends Application {
 	
 	public final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
 	
+
+	public void placeFigure(Figure figure)
+	{
+		int col = figure.column;
+		int row = figure.row;
+		int port = figure.port;
+		ImageView image = figure.image;
+		double curRowVal = 0;
+		double curColVal = 0;
+		if(row <= 0 || col >= 7)
+		{
+			curRowVal = curRowVal + 10000;
+		}
+		else if(row == 1)
+		{
+			curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent)*6;
+		}
+		else if(row == 2)
+		{
+			curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent)*4;
+		}
+		else if(row == 3)
+		{
+			curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent)*2;
+		}
+		else if(row == 4)
+		{
+			curRowVal = 0;
+		}
+		else if(row == 5)
+		{
+			curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent)*2;
+		}
+		else if(row == 6)
+		{
+			curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent)*4;
+		}
+		if(col <= 0 || col >= 7)
+		{
+			curColVal = curColVal + 10000;
+		}
+		else if(col == 1)
+		{
+			curColVal = 0;
+		}
+		else if(col == 2)
+		{
+			curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent);
+		}
+		else if(col == 3)
+		{
+			curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent)*2;
+		}
+		else if(col == 4)
+		{
+			curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent)*3;
+		}
+		else if(col == 5)
+		{
+			curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent)*4;
+		}
+		else if(col == 6)
+		{
+			curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent)*5;
+		}
+		if(port == 0)
+		{
+			curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent/3)*.8;
+		}
+		else if(port == 1)
+		{
+			curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent/3)*1.8;
+		}
+		else if(port == 2)
+		{
+			if(row <= 3)
+			{
+				curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent);
+				curRowVal = curRowVal - ((visualBounds.getWidth()/2)*tilePercent/3)*1.8;
+			}
+			else if(row >= 4)
+			{
+				curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent);
+				curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent/3)*1.8;
+			}
+		}
+		else if(port == 3)
+		{
+			if(row <= 3)
+			{
+				curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent);
+				curRowVal = curRowVal - ((visualBounds.getWidth()/2)*tilePercent/3)*3.8;
+			}
+			else if(row >= 4)
+			{
+				curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent);
+				curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent/3)*3.8;
+			}
+		}
+		else if(port == 4)
+		{
+			if(row <= 3)
+			{
+				curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent/3)*1.8;
+				curRowVal = curRowVal - ((visualBounds.getWidth()/2)*tilePercent)*2;
+			}
+			else if(row >= 4)
+			{
+				curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent/3)*1.8;
+				curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent)*2;
+			}
+		}
+		else if(port == 5)
+		{
+			if(row <= 3)
+			{
+				curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent/3)*.8;
+				curRowVal = curRowVal - ((visualBounds.getWidth()/2)*tilePercent)*2;
+			}
+			else if(row >= 4)
+			{
+				curColVal = curColVal + ((visualBounds.getWidth()/2)*tilePercent/3)*.8;
+				curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent)*2;
+			}
+		}
+		else if(port == 6)
+		{
+			if(row <= 3)
+			{
+				curRowVal = curRowVal - ((visualBounds.getWidth()/2)*tilePercent/3)*4;
+			}
+			else if(row >= 4)
+			{
+				curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent/3)*4;
+			}
+		}
+		else if(port == 7)
+		{
+			if(row <= 3)
+			{
+				curRowVal = curRowVal - ((visualBounds.getWidth()/2)*tilePercent/3)*2;
+			}
+			else if(row >= 4)
+			{
+				curRowVal = curRowVal + ((visualBounds.getWidth()/2)*tilePercent/3)*2;
+			}
+		}
+		if(row <= 3)
+		{
+			GridPane.setMargin(image,new Insets(0,0,curRowVal,curColVal));
+		}
+		else if(row >= 4)
+		{
+			GridPane.setMargin(image,new Insets(curRowVal,0,0,curColVal));
+		}
+	}
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -75,7 +231,10 @@ public class Main extends Application {
 	        drawCard(cpu);
 	        drawCard(cpu);
 	        
+	        ((GridPane) root.getCenter()).add(player.image, 1,1,6,6);
+	        //((GridPane) root.getCenter()).add(cpu.image, 1,1,6,6);
 	        
+		    placeFigure(player);
 			
 		} catch(Exception e) {
 			e.printStackTrace();
